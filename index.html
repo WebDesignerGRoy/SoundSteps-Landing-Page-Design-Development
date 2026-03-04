@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundSteps • Speech practice for little voices</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600&amp;display=swap');
+        
+        :root {
+            --primary: 45 212 191;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        }
+
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover {
+            color: rgb(45 212 191);
+            transform: translateY(-2px);
+        }
+
+        .stat-card {
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .wave-bg {
+            position: relative;
+        }
+        
+        .wave-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2314b8a6' fill-opacity='0.08' d='M0,192L48,197.3C96,203,192,213,288,213.3C384,213,480,203,576,181.3C672,160,768,128,864,133.3C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .app-mockup {
+            transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .app-mockup:hover {
+            transform: scale(1.04) rotate(1deg);
+        }
+
+        .section-header {
+            position: relative;
+        }
+        
+        .section-header:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: rgb(45 212 191);
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 9999px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(to right, rgb(45 212 191), rgb(16 185 129));
+            animation: progress 4s linear forwards;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .voice-wave {
+            display: flex;
+            align-items: flex-end;
+            height: 28px;
+            gap: 3px;
+        }
+        
+        .voice-bar {
+            width: 4px;
+            background: rgb(45 212 191);
+            animation: soundwave 1.2s ease-in-out infinite;
+        }
+        
+        .voice-bar:nth-child(2) { height: 60%; animation-delay: 100ms; }
+        .voice-bar:nth-child(3) { height: 85%; animation-delay: 200ms; }
+        .voice-bar:nth-child(4) { height: 45%; animation-delay: 300ms; }
+        .voice-bar:nth-child(5) { height: 75%; animation-delay: 150ms; }
+
+        @keyframes soundwave {
+            0%, 100% { height: 25%; }
+            50% { height: 100%; }
+        }
+
+        .child-illustration {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="tail-container text-slate-800 overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b border-slate-100 fixed w-full z-50">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-6 py-5 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-teal-500 rounded-2xl flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-shoe-prints text-white text-2xl leading-none mt-0.5"></i>
+                    </div>
+                    <div>
+                        <span class="heading-font text-3xl font-semibold tracking-tighter text-teal-600">SoundSteps</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="#problem" onclick="smoothScrollTo('problem')" class="nav-link text-slate-600">The Challenge</a>
+                    <a href="#solution" onclick="smoothScrollTo('solution')" class="nav-link text-slate-600">Our Solution</a>
+                    <a href="#how" onclick="smoothScrollTo('how')" class="nav-link text-slate-600">How it Works</a>
+                    <a href="#join" onclick="smoothScrollTo('join')" class="nav-link text-slate-600">Join Early Access</a>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <button onclick="showLoginModal()" 
+                            class="hidden sm:flex items-center px-5 py-2.5 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
+                        <i class="fa-solid fa-user text-xs mr-2"></i>
+                        <span>Log in</span>
+                    </button>
+                    
+                    <button onclick="smoothScrollTo('join')"
+                            class="px-6 py-2.5 bg-teal-500 hover:bg-teal-600 transition-all text-white text-sm font-semibold rounded-3xl flex items-center gap-x-2 shadow-lg shadow-teal-200">
+                        <span>Get early access</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                    
+                    <!-- Mobile hamburger -->
+                    <button id="mobile-menu-button"
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-2xl text-slate-700">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MOBILE MENU -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t px-6 py-6">
+            <div class="flex flex-col gap-y-6 text-lg">
+                <a href="#problem" onclick="toggleMobileMenu(); smoothScrollTo('problem')" class="font-medium">The Challenge</a>
+                <a href="#solution" onclick="toggleMobileMenu(); smoothScrollTo('solution')" class="font-medium">Our Solution</a>
+                <a href="#how" onclick="toggleMobileMenu(); smoothScrollTo('how')" class="font-medium">How it Works</a>
+                <a href="#join" onclick="toggleMobileMenu(); smoothScrollTo('join')" class="font-medium">Join Early Access</a>
+                
+                <div class="pt-6 border-t">
+                    <button onclick="toggleMobileMenu(); showLoginModal()" 
+                            class="w-full py-4 border border-slate-300 rounded-3xl text-slate-700 flex items-center justify-center gap-x-3">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="font-medium">Parent login</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg pt-20 md:pt-28 pb-16 md:pb-24">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left content -->
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-x-2 bg-white shadow rounded-3xl px-5 py-2 text-xs font-medium tracking-wider mb-6">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="text-teal-600">NOW IN BETA FOR EARLY FAMILIES</span>
+                    </div>
+                    
+                    <h1 class="heading-font text-6xl md:text-7xl leading-none font-semibold tracking-tighter text-slate-900 mb-4">
+                        Every sound,<br>every step,<br>every smile.
+                    </h1>
+                    
+                    <p class="text-xl text-slate-600 max-w-md mb-8">
+                        A gentle app to help parents support their child's speech development at home. 
+                        Calm practice. Real progress.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="smoothScrollTo('join')"
+                                class="group px-8 py-5 bg-teal-500 hover:bg-teal-600 transition-all rounded-3xl text-white flex items-center justify-center gap-x-3 text-lg font-medium shadow-xl shadow-teal-300">
+                            <span>Join the early access list</span>
+                            <i class="fa-solid fa-arrow-right group-active:rotate-45 transition-transform"></i>
+                        </button>
+                        
+                        <button onclick="smoothScrollTo('solution')"
+                                class="px-8 py-5 border border-slate-300 hover:border-slate-400 transition-colors rounded-3xl flex items-center gap-x-3 text-slate-700 font-medium">
+                            <i class="fa-solid fa-play text-xs"></i>
+                            <span>See how it works</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Trust signals -->
+                    <div class="mt-12 flex items-center gap-x-8">
+                        <div class="flex -space-x-4">
+                            <div class="w-7 h-7 bg-pink-200 border-2 border-white rounded-2xl flex items-center justify-center text-xs">👧</div>
+                            <div class="w-7 h-7 bg-sky-200 border-2 border-white rounded-2xl flex items-center justify-center text-xs">👦</div>
+                            <div class="w-7 h-7 bg-amber-200 border-2 border-white rounded-2xl flex items-center justify-center text-xs">🧒</div>
+                        </div>
+                        <div class="text-xs leading-tight">
+                            <div class="font-medium">Joined by 1,482 parents</div>
+                            <div class="text-slate-500">in the last 30 days</div>
+                        </div>
+                        
+                        <div class="h-8 border-r border-slate-200"></div>
+                        
+                        <div class="flex items-center gap-x-1">
+                            <div class="voice-wave">
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                                <div class="voice-bar"></div>
+                            </div>
+                            <span class="text-[10px] font-mono text-teal-500 tracking-[1px]">LIVE</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right visual -->
+                <div class="relative flex justify-center lg:justify-end">
+                    <div class="relative">
+                        <!-- Phone mockup -->
+                        <div class="app-mockup bg-white w-72 h-[560px] rounded-[52px] shadow-2xl shadow-teal-300/40 border-8 border-slate-900 overflow-hidden relative z-10">
+                            <!-- Phone top bar -->
+                            <div class="h-11 bg-slate-900 flex items-center justify-center">
+                                <div class="w-28 h-4 bg-slate-800 rounded-3xl"></div>
+                            </div>
+                            
+                            <!-- App screen -->
+                            <div class="h-[calc(100%-44px)] bg-gradient-to-b from-teal-50 to-white p-4 flex flex-col">
+                                <!-- App header -->
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="flex items-center gap-x-2">
+                                        <i class="fa-solid fa-shoe-prints text-teal-400"></i>
+                                        <span class="font-semibold text-slate-800">SoundSteps</span>
+                                    </div>
+                                    <div class="text-xs bg-white shadow px-3 py-1 rounded-3xl flex items-center gap-x-1">
+                                        <span class="text-emerald-400">●</span>
+                                        <span class="font-medium text-slate-500">4:18pm</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Child avatar -->
+                                <div class="flex justify-center mb-4">
+                                    <div class="w-28 h-28 bg-gradient-to-br from-amber-300 to-pink-300 rounded-3xl flex items-center justify-center shadow-inner text-6xl child-illustration">
+                                        🐸
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mb-8">
+                                    <div class="text-xs uppercase font-medium tracking-widest text-teal-500">Today's practice</div>
+                                    <div class="text-4xl font-semibold text-slate-800 mt-1">“B” sounds</div>
+                                </div>
+                                
+                                <!-- Practice area -->
+                                <div class="flex-1 bg-white rounded-3xl shadow-inner p-4 flex flex-col items-center justify-center gap-y-6">
+                                    <div class="text-center">
+                                        <div onclick="fakeSpeak()" 
+                                             class="cursor-pointer mx-auto w-20 h-20 bg-teal-100 hover:bg-teal-200 transition-colors rounded-2xl flex items-center justify-center text-5xl mb-4">
+                                            🗣️
+                                        </div>
+                                        <div class="text-xs font-medium text-slate-400">Tap to practice</div>
+                                    </div>
+                                    
+                                    <!-- Progress dots -->
+                                    <div class="flex gap-x-2">
+                                        <div class="w-5 h-2 bg-teal-300 rounded-full"></div>
+                                        <div class="w-5 h-2 bg-teal-400 rounded-full"></div>
+                                        <div class="w-5 h-2 bg-teal-500 rounded-full"></div>
+                                        <div class="w-5 h-2 bg-slate-100 rounded-full"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Footer bar -->
+                                <div class="mt-auto flex justify-between text-xs text-slate-400">
+                                    <div class="flex items-center gap-x-2">
+                                        <i class="fa-solid fa-home"></i>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <i class="fa-solid fa-chart-simple"></i>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Decorative elements -->
+                        <div class="absolute -top-6 -right-6 bg-white rounded-3xl shadow px-5 py-3 text-xs flex items-center gap-x-3 z-20">
+                            <div class="text-emerald-500">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <div class="font-medium text-slate-700">Mia said 12 words</div>
+                                <div class="text-[10px] text-slate-400">today</div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-4 -left-8 bg-white/90 backdrop-blur-xl border border-white shadow rounded-3xl px-4 py-3 text-xs z-20 flex items-center">
+                            <div class="flex items-center">
+                                <span class="text-amber-400">★</span>
+                                <span class="text-amber-400">★</span>
+                                <span class="text-amber-400">★</span>
+                                <span class="text-amber-400">★</span>
+                                <span class="text-slate-200">★</span>
+                            </div>
+                            <span class="ml-3 text-slate-500 text-[10px]">4.98 avg rating</span>
+                        </div>
+                        
+                        <!-- Floating badge -->
+                        <div class="absolute top-12 -left-12 bg-white px-6 py-2 rounded-3xl flex items-center gap-x-2 shadow-xl text-teal-600 text-sm font-medium rotate-[-8deg]">
+                            <i class="fa-solid fa-leaf"></i>
+                            <span>Parent powered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll prompt -->
+        <div class="hidden md:flex justify-center mt-12">
+            <div onclick="smoothScrollTo('problem')" 
+                 class="flex flex-col items-center cursor-pointer">
+                <div class="text-xs font-medium text-slate-400 tracking-widest mb-3">SCROLL TO LEARN MORE</div>
+                <div class="w-px h-12 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS BAR -->
+    <div class="bg-white py-8 border-b">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-0 items-center">
+                <div class="flex flex-col items-center md:border-r border-slate-100">
+                    <div class="text-4xl font-semibold text-teal-500">1 in 10</div>
+                    <div class="text-xs text-slate-500 text-center leading-none mt-2">children have<br>speech needs</div>
+                </div>
+                <div class="flex flex-col items-center md:border-r border-slate-100">
+                    <div class="text-4xl font-semibold text-teal-500">68k+</div>
+                    <div class="text-xs text-slate-500 text-center leading-none mt-2">waiting for<br>therapy</div>
+                </div>
+                <div class="flex flex-col items-center md:border-r border-slate-100">
+                    <div class="text-4xl font-semibold text-teal-500">5-8%</div>
+                    <div class="text-xs text-slate-500 text-center leading-none mt-2">early language<br>difficulties</div>
+                </div>
+                <div class="flex flex-col items-center md:border-r border-slate-100">
+                    <div class="text-4xl font-semibold text-teal-500">81%</div>
+                    <div class="text-xs text-slate-500 text-center leading-none mt-2">mental health link</div>
+                </div>
+                <div class="col-span-3 md:col-span-2 flex justify-center md:justify-end gap-x-8 text-xs">
+                    <div class="max-w-[170px]">
+                        <div class="uppercase text-teal-400 text-[10px] font-medium">Sources</div>
+                        <div class="text-slate-400 text-[10px]">Speech &amp; Language UK • NHS • Early Intervention Foundation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROBLEM SECTION -->
+    <section id="problem" class="py-20 bg-white">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <!-- Left -->
+                <div class="lg:col-span-5">
+                    <div class="sticky top-28">
+                        <div class="uppercase text-teal-500 text-xs font-semibold tracking-[0.125em]">THE REALITY FOR FAMILIES</div>
+                        <h2 class="heading-font text-5xl leading-none font-medium text-slate-900 mt-3 mb-8">
+                            Speech challenges are more common than you think
+                        </h2>
+                        <p class="text-slate-600">
+                            Many parents feel overwhelmed and unsure how to help their child communicate better while waiting for professional support.
+                        </p>
+                        
+                        <div class="mt-12 hidden lg:block">
+                            <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6">
+                                <div class="flex items-center gap-x-4">
+                                    <i class="fa-solid fa-heart text-rose-400 text-2xl"></i>
+                                    <div class="flex-1">
+                                        <div class="text-xs font-medium">Your child is not alone</div>
+                                        <div class="h-2 bg-slate-200 rounded-3xl mt-4 overflow-hidden">
+                                            <div class="progress-bar w-3/4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right stats grid -->
+                <div class="lg:col-span-7">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Stat 1 -->
+                        <div class="stat-card bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
+                            <div class="flex justify-between">
+                                <div>
+                                    <span class="block text-7xl font-semibold text-slate-900 leading-none">1 in 10</span>
+                                    <span class="block text-teal-500 text-sm font-medium mt-6">UK children</span>
+                                </div>
+                                <div class="text-6xl text-slate-200">🇬🇧</div>
+                            </div>
+                            <div class="mt-12 text-xs leading-relaxed text-slate-500">
+                                Experience long-term speech, language and communication needs
+                            </div>
+                            <div class="text-[10px] text-slate-400 mt-8">— Speech and Language UK</div>
+                        </div>
+                        
+                        <!-- Stat 2 -->
+                        <div class="stat-card bg-white border border-slate-100 p-8 rounded-3xl shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div class="text-7xl font-semibold text-rose-400">68,000+</div>
+                            </div>
+                            <div class="mt-auto pt-16">
+                                <div class="uppercase text-xs font-semibold text-slate-400">children waiting for therapy</div>
+                                <div class="mt-1 text-slate-500 text-sm">in England alone</div>
+                            </div>
+                            <div class="h-px bg-slate-100 my-8"></div>
+                            <div class="flex justify-between text-xs">
+                                <div class="flex items-center gap-x-1">
+                                    <span class="text-orange-400">📆</span>
+                                    <span>Up to 12 months</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stat 3 -->
+                        <div class="stat-card bg-white border border-slate-100 p-8 rounded-3xl shadow-sm col-span-1 sm:col-span-2 lg:col-span-1">
+                            <div class="h-full flex flex-col">
+                                <div>
+                                    <span class="text-4xl font-medium">Early support</span>
+                                    <span class="block text-slate-400 text-sm">matters most</span>
+                                </div>
+                                <div class="flex-1 flex items-end">
+                                    <div class="text-xs max-w-[190px]">
+                                        Children who receive help early show 2× better outcomes in reading and social confidence
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stat 4 -->
+                        <div class="stat-card bg-gradient-to-br from-slate-900 to-slate-800 text-white p-8 rounded-3xl shadow-sm col-span-1 sm:col-span-2 lg:col-span-1 flex flex-col">
+                            <i class="fa-solid fa-book text-amber-300 text-5xl"></i>
+                            <div class="mt-auto">
+                                <div class="text-4xl font-light">81%</div>
+                                <div class="text-xs opacity-70 mt-1">of children with mental health difficulties also have speech challenges</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTION -->
+    <section id="solution" class="wave-bg py-20 bg-teal-50">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="px-4 py-2 bg-white text-teal-500 text-xs rounded-3xl font-medium inline-flex items-center gap-x-2">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
+                    </span>
+                    INTRODUCING
+                </span>
+            </div>
+            
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="heading-font text-5xl font-medium tracking-tighter mb-4">SoundSteps helps parents and children connect through play</h2>
+                <p class="text-lg text-slate-600">
+                    Our app turns everyday moments into gentle speech practice. No pressure. No screens all day. 
+                    Just fun, short activities designed by speech experts and loved by families.
+                </p>
+            </div>
+            
+            <!-- App preview wide -->
+            <div class="mt-16 max-w-5xl mx-auto">
+                <div class="bg-white rounded-3xl p-2 shadow-2xl">
+                    <div class="bg-slate-900 rounded-3xl overflow-hidden">
+                        <!-- Fake app interface -->
+                        <div class="px-8 pt-8 pb-6 bg-[#0f172a]">
+                            <div class="flex justify-between text-white text-xs">
+                                <div class="flex items-center gap-x-8">
+                                    <div class="flex items-center gap-x-1">
+                                        <i class="fa-solid fa-house"></i>
+                                    </div>
+                                    <div class="flex items-center gap-x-1">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="flex items-center gap-x-1 text-teal-300">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                        <span class="font-medium">PRACTICE</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center text-teal-300">
+                                    <i class="fa-solid fa-user text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-8 bg-white">
+                            <div class="flex gap-10">
+                                <!-- Left activity list -->
+                                <div class="flex-1">
+                                    <div class="uppercase text-teal-400 text-xs mb-6 flex items-center">
+                                        <span class="flex-1 h-px bg-gradient-to-r from-transparent to-teal-200"></span>
+                                        <span class="px-8">TODAY'S SOUNDS</span>
+                                        <span class="flex-1 h-px bg-gradient-to-l from-transparent to-teal-200"></span>
+                                    </div>
+                                    
+                                    <div onclick="selectActivity(this)" class="activity-option bg-teal-50 hover:bg-teal-100 border border-teal-200 p-4 rounded-2xl mb-3 cursor-pointer flex gap-x-5 items-center transition-all">
+                                        <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">🐝</div>
+                                        <div class="flex-1">
+                                            <div class="font-medium">The buzzing bee</div>
+                                            <div class="text-xs text-slate-400">B B B sounds • 4 mins</div>
+                                        </div>
+                                        <div class="text-xs bg-white px-4 py-3 rounded-3xl font-medium text-teal-500">START</div>
+                                    </div>
+                                    
+                                    <div onclick="selectActivity(this)" class="activity-option bg-slate-50 hover:bg-slate-100 p-4 rounded-2xl mb-3 cursor-pointer flex gap-x-5 items-center transition-all">
+                                        <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">🚂</div>
+                                        <div class="flex-1">
+                                            <div class="font-medium">Choo choo train</div>
+                                            <div class="text-xs text-slate-400">CH sounds • 7 mins</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Center progress illustration -->
+                                <div class="hidden md:flex flex-col items-center justify-center w-64">
+                                    <div class="relative">
+                                        <div class="w-40 h-40 border-8 border-dashed border-slate-200 rounded-full flex items-center justify-center">
+                                            <div class="w-28 h-28 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-full flex items-center justify-center text-6xl shadow-inner">
+                                                🐛
+                                            </div>
+                                        </div>
+                                        <!-- orbiting dots -->
+                                        <div class="absolute top-1/2 left-1/2 w-6 h-6 bg-white shadow rounded-2xl flex items-center justify-center -translate-x-1/2 -translate-y-1/2 text-xs font-mono">8</div>
+                                    </div>
+                                    <div class="text-center text-xs font-medium text-slate-500 mt-8">7 day streak 🔥</div>
+                                </div>
+                                
+                                <!-- Right panel -->
+                                <div class="flex-1 pt-8">
+                                    <div class="rounded-3xl bg-slate-100 p-5 text-center">
+                                        <div class="mx-auto w-11 h-11 bg-white rounded-2xl shadow-inner flex items-center justify-center text-xl mb-6">📣</div>
+                                        <div class="text-sm font-semibold">Say it with me...</div>
+                                        <div class="mt-10 text-xs bg-white inline-flex items-center gap-x-2 px-5 py-2 rounded-3xl">
+                                            <span class="text-teal-500">B</span> 
+                                            <span class="text-3xl text-slate-300">→</span> 
+                                            <span class="text-rose-400">BUZZ</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-12 flex justify-center">
+                                        <button onclick="fakeSpeak()" 
+                                                class="rounded-full bg-teal-500 text-white px-10 py-6 text-sm font-medium flex items-center gap-x-3 active:scale-95 transition-transform">
+                                            <i class="fa-solid fa-microphone"></i>
+                                            <span>RECORD MY VOICE</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="max-w-xl mx-auto text-center text-xs text-slate-400 mt-10 flex items-center justify-center gap-x-8">
+                <div>✅ No ads</div>
+                <div>✅ Works offline</div>
+                <div>✅ Ages 2-6</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" class="py-20 bg-white">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-20">
+                <!-- Steps -->
+                <div class="flex-1">
+                    <div class="text-teal-500 uppercase text-xs font-semibold mb-4 tracking-wider">3 SIMPLE STEPS</div>
+                    <h2 class="heading-font text-5xl font-medium">How SoundSteps works</h2>
+                    
+                    <div class="mt-16 space-y-12">
+                        <!-- Step 1 -->
+                        <div class="flex gap-8">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center font-semibold text-3xl">1</div>
+                            <div>
+                                <div class="font-medium text-xl">Pick a sound</div>
+                                <div class="text-slate-500 mt-3 pr-8">
+                                    Choose from everyday sounds like “B”, “M”, “S” or themed games that match your child's interests.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex gap-8">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center font-semibold text-3xl">2</div>
+                            <div>
+                                <div class="font-medium text-xl">Practice together</div>
+                                <div class="text-slate-500 mt-3 pr-8">
+                                    Short, fun 3–7 minute sessions with visual prompts, songs and repetition.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="flex gap-8">
+                            <div class="flex-shrink-0 w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center font-semibold text-3xl">3</div>
+                            <div>
+                                <div class="font-medium text-xl">See the growth</div>
+                                <div class="text-slate-500 mt-3 pr-8">
+                                    Track words spoken, sounds mastered, and celebrate milestones with your child.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right column visual -->
+                <div class="flex-1 relative">
+                    <div class="bg-teal-50 rounded-3xl p-8">
+                        <div class="aspect-video bg-white rounded-3xl overflow-hidden flex items-center justify-center border border-slate-100">
+                            <div class="text-center">
+                                <div class="mx-auto w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-violet-400 to-fuchsia-400 text-white text-4xl mb-6">🎤</div>
+                                <div class="font-medium">Practice mode active</div>
+                                <div class="text-xs text-slate-400 mt-px">“Can you say banana?”</div>
+                                
+                                <!-- Fake waveform -->
+                                <div class="mt-12 flex justify-center gap-x-1">
+                                    <div class="voice-bar h-5" style="animation-duration: 800ms"></div>
+                                    <div class="voice-bar h-9" style="animation-duration: 1100ms"></div>
+                                    <div class="voice-bar h-3" style="animation-duration: 650ms"></div>
+                                    <div class="voice-bar h-8" style="animation-duration: 1300ms"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Milestone ribbon -->
+                    <div class="absolute -bottom-4 right-12 bg-white shadow-xl text-xs rounded-3xl px-5 py-4 flex items-center gap-x-4">
+                        <div class="text-lime-400">🏆</div>
+                        <div>
+                            <div class="font-semibold text-sm">New milestone!</div>
+                            <div class="text-teal-500 text-xs">“First full sentence”</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Testimonial -->
+                <div class="bg-white p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-yellow-400 text-xl mb-6">
+                        ★★★★☆
+                    </div>
+                    <div class="italic text-slate-600">
+                        “My 3 year old actually looks forward to practice now. The frog voice game is his favourite!”
+                    </div>
+                    <div class="mt-8 flex items-center gap-x-3">
+                        <div class="w-8 h-8 bg-violet-200 rounded-2xl"></div>
+                        <div>
+                            <div class="font-medium text-sm">Rachel Patel</div>
+                            <div class="text-xs text-slate-400">Mother of Aarav, 3</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="bg-white p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-yellow-400 text-xl mb-6">
+                        ★★★★★
+                    </div>
+                    <div class="italic text-slate-600">
+                        “We were on a waiting list for 9 months. This app gave us something to do together and I can already hear improvements.”
+                    </div>
+                    <div class="mt-8 flex items-center gap-x-3">
+                        <div class="w-8 h-8 bg-amber-200 rounded-2xl"></div>
+                        <div>
+                            <div class="font-medium text-sm">Thomas Reed</div>
+                            <div class="text-xs text-slate-400">Father of Ellie, 4</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="bg-white p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-yellow-400 text-xl mb-6">
+                        ★★★★☆
+                    </div>
+                    <div class="italic text-slate-600">
+                        “The gentle reminders and progress reports help me stay consistent. It feels like we have a little speech therapist at home.”
+                    </div>
+                    <div class="mt-8 flex items-center gap-x-3">
+                        <div class="w-8 h-8 bg-sky-200 rounded-2xl"></div>
+                        <div>
+                            <div class="font-medium text-sm">Priya Sharma</div>
+                            <div class="text-xs text-slate-400">Mother of Rohan, 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOIN FORM -->
+    <section id="join" class="py-24 bg-gradient-to-b from-white to-teal-50">
+        <div class="max-w-screen-2xl mx-auto px-6">
+            <div class="max-w-lg mx-auto bg-white rounded-3xl shadow-xl p-10">
+                <div class="text-center mb-8">
+                    <span class="inline-block text-xs bg-teal-100 text-teal-700 px-5 py-3 rounded-3xl font-medium">BECOME AN EARLY FAMILY</span>
+                </div>
+                
+                <h2 class="text-4xl font-medium text-center heading-font tracking-tighter mb-2">Help shape SoundSteps</h2>
+                <p class="text-center text-slate-500 text-base max-w-xs mx-auto">
+                    Join our early access list and get the app first + help us improve it for all families.
+                </p>
+                
+                <form id="signup-form" onsubmit="handleSignup(event)" class="mt-10 space-y-7">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-500 mb-2">YOUR NAME</label>
+                        <input id="name" type="text" 
+                               class="w-full border border-slate-200 focus:border-teal-300 focus:outline-none rounded-3xl px-7 py-6 text-base"
+                               placeholder="Emma Thompson" required>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-7">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 mb-2">CHILD'S AGE</label>
+                            <select id="age" 
+                                    class="w-full border border-slate-200 focus:border-teal-300 focus:outline-none rounded-3xl px-7 py-6 text-base">
+                                <option value="">Select age</option>
+                                <option value="2">2 years</option>
+                                <option value="3" selected>3 years</option>
+                                <option value="4">4 years</option>
+                                <option value="5">5 years</option>
+                                <option value="6">6 years</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 mb-2">EMAIL</label>
+                            <input id="email" type="email" 
+                                   class="w-full border border-slate-200 focus:border-teal-300 focus:outline-none rounded-3xl px-7 py-6 text-base"
+                                   placeholder="you@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-slate-500 mb-2">WHAT'S YOUR BIGGEST SPEECH CHALLENGE RIGHT NOW?</label>
+                        <textarea id="challenge" rows="3"
+                                  class="w-full border border-slate-200 focus:border-teal-300 focus:outline-none rounded-3xl px-7 py-6 text-base resize-none"
+                                  placeholder="Pronouncing R sounds..."></textarea>
+                    </div>
+                    
+                    <button type="submit"
+                            class="w-full py-7 bg-gradient-to-r from-teal-400 to-cyan-500 text-white font-semibold rounded-3xl text-lg flex items-center justify-center gap-x-4 active:scale-[0.97] transition-all">
+                        <span id="submit-text">JOIN THE WAITLIST FREE</span>
+                        <i id="submit-icon" class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    
+                    <div class="text-[10px] text-center text-slate-400">
+                        Your information is safe. We hate spam too.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="bg-slate-900 py-8">
+        <div class="max-w-screen-2xl mx-auto px-6 text-white flex flex-col md:flex-row items-center justify-between gap-y-6">
+            <div class="flex items-center gap-x-4">
+                <div class="text-4xl">👣</div>
+                <div class="text-lg font-light">Take the first step today</div>
+            </div>
+            <button onclick="smoothScrollTo('join')" 
+                    class="border border-white/30 hover:border-white/60 transition-colors text-white px-10 py-6 rounded-3xl font-medium flex items-center gap-x-3">
+                <span>Secure your early access spot</span>
+                <span class="text-xs bg-white/10 px-4 py-2.5 rounded-3xl">LIMITED SLOTS</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400">
+        <div class="max-w-screen-2xl mx-auto px-6 pt-16 pb-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12">
+                <!-- Col 1 -->
+                <div>
+                    <div class="flex items-center gap-x-3 text-white mb-6">
+                        <div class="w-8 h-8 bg-teal-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-shoe-prints"></i>
+                        </div>
+                        <span class="heading-font text-3xl tracking-tighter">SoundSteps</span>
+                    </div>
+                    <div class="text-xs max-w-[170px]">
+                        Helping little voices grow stronger, one sound at a time.
+                    </div>
+                    <div class="mt-8 flex gap-x-5 text-lg">
+                        <i class="fa-brands fa-x-twitter cursor-pointer hover:text-white transition-colors"></i>
+                        <i class="fa-brands fa-instagram cursor-pointer hover:text-white transition-colors"></i>
+                    </div>
+                </div>
+                
+                <!-- Col 2 -->
+                <div>
+                    <div class="uppercase text-xs mb-5 text-slate-500">Product</div>
+                    <div class="space-y-4 text-sm">
+                        <div class="cursor-pointer hover:text-white">How it works</div>
+                        <div class="cursor-pointer hover:text-white">For therapists</div>
+                        <div class="cursor-pointer hover:text-white">Safety &amp; privacy</div>
+                        <div class="cursor-pointer hover:text-white">Download app</div>
+                    </div>
+                </div>
+                
+                <!-- Col 3 -->
+                <div>
+                    <div class="uppercase text-xs mb-5 text-slate-500">Company</div>
+                    <div class="space-y-4 text-sm">
+                        <div class="cursor-pointer hover:text-white">Our story</div>
+                        <div class="cursor-pointer hover:text-white">Blog</div>
+                        <div class="cursor-pointer hover:text-white">Press</div>
+                        <div class="cursor-pointer hover:text-white">Careers</div>
+                    </div>
+                </div>
+                
+                <!-- Col 4 -->
+                <div>
+                    <div class="uppercase text-xs mb-5 text-slate-500">Resources</div>
+                    <div class="space-y-4 text-sm">
+                        <div class="cursor-pointer hover:text-white">Speech tips</div>
+                        <div class="cursor-pointer hover:text-white">Parent guides</div>
+                        <div class="cursor-pointer hover:text-white">Research</div>
+                        <div class="cursor-pointer hover:text-white">Community forum</div>
+                    </div>
+                </div>
+                
+                <!-- Col 5 -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="bg-slate-900 rounded-3xl p-7 text-xs">
+                        <div class="font-medium mb-4 text-white">Questions?</div>
+                        <a href="#" class="block text-teal-400 hover:underline">hello@soundsteps.app</a>
+                        <div class="h-px bg-slate-800 my-7"></div>
+                        <div class="text-[10px] leading-relaxed">
+                            Made with love in London for families everywhere.<br><br>
+                            © 2026 SoundSteps Limited
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-16 mt-16 border-t border-slate-900 text-[10px] flex flex-col md:flex-row justify-between items-center gap-y-4">
+                <div class="flex gap-x-6">
+                    <div>Privacy</div>
+                    <div>Terms</div>
+                    <div>Accessibility</div>
+                </div>
+                <div class="text-slate-500">Not a replacement for professional therapy</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUCCESS MODAL -->
+    <div onclick="if(event.target.id === 'modal-backdrop') hideModal()" id="modal-backdrop"
+         class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white max-w-sm w-full mx-4 rounded-3xl overflow-hidden">
+            <!-- Modal header -->
+            <div class="px-8 pt-8 pb-6 border-b flex items-center justify-between">
+                <div class="font-semibold text-xl">Thank you!</div>
+                <button onclick="hideModal()" class="text-slate-300 hover:text-slate-500">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="p-8 text-center">
+                <div class="mx-auto w-16 h-16 bg-teal-100 text-teal-500 rounded-2xl flex items-center justify-center text-4xl mb-6">
+                    🎉
+                </div>
+                <div class="font-medium">You've been added to the early access list</div>
+                <div class="text-slate-500 text-sm mt-2">We'll send you an invitation as soon as the beta opens. Expect an email in the next 2 weeks.</div>
+                
+                <div class="my-10 border border-dashed border-slate-200 rounded-2xl p-4 text-xs">
+                    <div class="flex justify-between items-center">
+                        <div class="text-left">
+                            <div class="font-mono text-teal-400">SOUND-3921</div>
+                            <div class="text-slate-400">your referral code</div>
+                        </div>
+                        <button onclick="copyCode();"
+                                class="text-xs border border-slate-300 px-6 py-4 rounded-2xl hover:bg-slate-50">COPY</button>
+                    </div>
+                </div>
+                
+                <button onclick="hideModal()" 
+                        class="w-full py-6 text-sm font-semibold border border-slate-200 rounded-3xl">BACK TO HOMEPAGE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL (fake) -->
+    <div onclick="if(event.target.id === 'login-backdrop') hideLoginModal()" id="login-backdrop"
+         class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white w-full max-w-md mx-4 rounded-3xl">
+            <div class="px-8 py-8">
+                <div class="flex justify-center mb-6">
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-9 h-9 bg-teal-500 rounded-2xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-shoe-prints"></i>
+                        </div>
+                        <span class="heading-font text-3xl text-teal-600">SoundSteps</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-center text-2xl font-medium mb-8">Welcome back</h3>
+                
+                <div class="space-y-6">
+                    <input type="email" value="emma@email.com" 
+                           class="w-full border border-slate-200 rounded-3xl px-7 py-7 outline-none text-base">
+                    
+                    <input type="password" value="••••••••••" 
+                           class="w-full border border-slate-200 rounded-3xl px-7 py-7 outline-none text-base">
+                    
+                    <button onclick="fakeLogin()" 
+                            class="w-full py-7 bg-slate-900 text-white font-medium rounded-3xl">LOG IN</button>
+                </div>
+                
+                <div class="text-xs text-center text-slate-400 mt-10">
+                    Don't have an account yet? 
+                    <span onclick="hideLoginModal()" class="underline cursor-pointer">Join the waitlist</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            // Already configured via CDN
+        }
+        
+        function smoothScrollTo(section) {
+            let targetSection;
+            
+            switch(section) {
+                case 'problem':
+                    targetSection = document.getElementById('problem');
+                    break;
+                case 'solution':
+                    targetSection = document.getElementById('solution');
+                    break;
+                case 'how':
+                    targetSection = document.getElementById('how');
+                    break;
+                case 'join':
+                    targetSection = document.getElementById('join');
+                    break;
+                default:
+                    targetSection = document.getElementById('problem');
+            }
+            
+            if (targetSection) {
+                const navHeight = 80;
+                const topOffset = targetSection.getBoundingClientRect().top + window.scrollY - navHeight;
+                window.scrollTo({ top: topOffset, behavior: 'smooth' });
+            }
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        function handleSignup(e) {
+            e.preventDefault();
+            
+            // Fake loading
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.style.transitionDuration = '150ms';
+            submitBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="animate-spin h-5 w-5 mr-3 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span>SAVING...</span>
+            `;
+            submitBtn.disabled = true;
+            
+            // Simulate network
+            setTimeout(() => {
+                hideModal(); // ensure closed
+                document.getElementById('modal-backdrop').classList.remove('hidden');
+                document.getElementById('modal-backdrop').classList.add('flex');
+                
+                // Reset form
+                e.target.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1350);
+        }
+        
+        function hideModal() {
+            const modal = document.getElementById('modal-backdrop');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        
+        function showLoginModal() {
+            const loginModal = document.getElementById('login-backdrop');
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+        }
+        
+        function hideLoginModal() {
+            const loginModal = document.getElementById('login-backdrop');
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+        }
+        
+        function fakeLogin() {
+            const loginModal = document.getElementById('login-backdrop');
+            loginModal.innerHTML = `
+                <div class="bg-emerald-600 text-white rounded-3xl py-6 px-12 text-center shadow-2xl">
+                    <i class="fa-solid fa-circle-check text-6xl mb-6"></i>
+                    <div class="font-medium text-3xl">Logged in successfully</div>
+                    <div class="text-emerald-200 text-sm mt-1">Welcome back, Emma</div>
+                    <button onclick="hideLoginModal()" 
+                            class="mt-12 text-xs border border-white/40 hover:border-white/90 transition-colors py-6 px-16 rounded-3xl">CONTINUE TO APP</button>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                hideLoginModal();
+            }, 2100);
+        }
+        
+        function fakeSpeak() {
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '40px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = '#0f766e';
+            toast.style.color = '#fff';
+            toast.style.padding = '16px 24px';
+            toast.style.borderRadius = '9999px';
+            toast.style.boxShadow = '0 25px 50px -12px rgb(0 0 0)';
+            toast.style.display = 'flex';
+            toast.style.alignItems = 'center';
+            toast.style.gap = '12px';
+            toast.style.zIndex = '9999';
+            toast.style.whiteSpace = 'nowrap';
+            toast.innerHTML = `
+                <i class="fa-solid fa-volume-high"></i>
+                <span class="text-sm font-medium">Great job! You said "ball"</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 1, 1)';
+                toast.style.opacity = 0;
+                toast.style.transform = 'translateX(-50%) translateY(30px)';
+                
+                setTimeout(() => toast.remove(), 400);
+            }, 2200);
+        }
+        
+        function selectActivity(el) {
+            // Deselect all
+            document.querySelectorAll('.activity-option').forEach(option => {
+                option.style.backgroundColor = '';
+                option.style.borderColor = '';
+            });
+            
+            // Select this
+            el.style.backgroundColor = '#ecfdf5';
+            el.style.borderColor = '#14b8a6';
+            
+            // Brief flash animation
+            el.style.transform = 'scale(0.96)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+            }, 160);
+        }
+        
+        function copyCode() {
+            // Fake copy
+            const orig = event.target.textContent;
+            event.target.textContent = 'COPIED!';
+            event.target.style.backgroundColor = '#a7f3d0';
+            
+            setTimeout(() => {
+                event.target.textContent = orig;
+                event.target.style.backgroundColor = '';
+            }, 1500);
+        }
+        
+        // Keyboard shortcuts
+        function handleKeys(e) {
+            if (e.metaKey && e.key === "k") {
+                e.preventDefault();
+                const joinSection = document.getElementById('join');
+                const topPos = joinSection.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: topPos - 80, behavior: "smooth" });
+            }
+        }
+        
+        // Initialize everything
+        function initialize() {
+            // Tailwind ready
+            initializeTailwind();
+            
+            // Mobile menu
+            const mobileBtn = document.getElementById('mobile-menu-button');
+            mobileBtn.addEventListener('click', toggleMobileMenu);
+            
+            // Close mobile menu when clicking links already handled in HTML
+            
+            // Demo activity cards already have onclicks
+            
+            // Keyboard listener
+            document.addEventListener('keydown', handleKeys);
+            
+            // Make sure form never submits real
+            const form = document.getElementById('signup-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    // already handled above
+                });
+            }
+            
+            // Random live counter (demo)
+            let liveCount = 1482;
+            setInterval(() => {
+                liveCount += Math.floor(Math.random() * 4) + 1;
+                // No DOM element to update but could be used later
+            }, 4500);
+            
+            // Scroll progress indicator on hero (fake)
+            console.log('%cSoundSteps landing page ready 🚀', 'font-family:monospace;color:#14b8a6;font-size:10px');
+        }
+        
+        // Boot app
+        window.onload = initialize;
+    </script>
+</body>
+</html>
